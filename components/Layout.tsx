@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Facebook, Twitter, Linkedin, Instagram, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -11,8 +11,8 @@ export const Navbar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="text-2xl font-bold text-brand-blue flex items-center gap-2">
-              <span className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center text-white">P</span>
-              PixelEstate
+              <span className="w-8 h-8 bg-brand-orange rounded-tr-xl rounded-bl-xl flex items-center justify-center text-white font-bold">Z</span>
+              ZenithHomes
             </Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">
@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
             <a href="#contact" className="text-gray-700 hover:text-brand-orange transition font-medium">Contact</a>
             <Link 
               to="/admin" 
-              className="px-4 py-2 rounded-full bg-brand-blue text-white text-sm font-semibold hover:bg-blue-900 transition"
+              className="px-4 py-2 rounded-full bg-brand-blue text-white text-sm font-semibold hover:bg-gray-800 transition"
             >
               Admin Panel
             </Link>
@@ -55,13 +55,13 @@ export const Navbar: React.FC = () => {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-8">
+    <footer className="bg-brand-blue text-white pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-               <span className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center text-white text-sm">P</span>
-               PixelEstate
+               <span className="w-8 h-8 bg-brand-orange rounded-tr-xl rounded-bl-xl flex items-center justify-center text-white text-sm font-bold">Z</span>
+               ZenithHomes
             </h3>
             <p className="text-gray-400 max-w-xs">
               Providing top-tier real estate consultation, design, and marketing services to help you find or build your dream space.
@@ -95,8 +95,8 @@ export const Footer: React.FC = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">© 2024 PixelEstate. All rights reserved.</p>
-          <p className="text-gray-600 text-xs mt-2 md:mt-0">Designed for Flipr Task</p>
+          <p className="text-gray-500 text-sm">© 2024 ZenithHomes. All rights reserved.</p>
+          <p className="text-gray-600 text-xs mt-2 md:mt-0">Designed for You</p>
         </div>
       </div>
     </footer>

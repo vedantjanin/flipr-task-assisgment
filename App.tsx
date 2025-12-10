@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Lazy load pages for better performance
+// Lazy load pages
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const AdminPanel = lazy(() => import('./pages/AdminPanel'));
 

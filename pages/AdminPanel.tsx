@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Project, Client, ContactSubmission, Subscriber, TabView } from '../types';
 import { db } from '../services/dataService';
-import { LayoutDashboard, Users, MessageSquare, Mail, Plus, Trash2, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, Mail, Plus, Trash2, ArrowLeft } from 'lucide-react';
 
 const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabView>(TabView.PROJECTS);
@@ -30,17 +30,17 @@ const AdminPanel: React.FC = () => {
 
   const handleAddProject = (e: React.FormEvent) => {
     e.preventDefault();
-    if(!newProject.imageUrl) {
-        // Fallback for demo if user leaves empty
-        newProject.imageUrl = `https://picsum.photos/400/300?random=${Date.now()}`;
+    let projectToAdd = { ...newProject };
+    if(!projectToAdd.imageUrl) {
+        projectToAdd.imageUrl = `https://picsum.photos/400/300?random=${Date.now()}`;
     }
-    db.addProject(newProject);
+    db.addProject(projectToAdd);
     setNewProject({ name: '', description: '', imageUrl: '' });
     refreshData();
   };
 
   const handleDeleteProject = (id: string) => {
-    if(window.confirm("Are you sure?")) {
+    if(window.confirm("Delete this project?")) {
       db.deleteProject(id);
       refreshData();
     }
@@ -48,16 +48,17 @@ const AdminPanel: React.FC = () => {
 
   const handleAddClient = (e: React.FormEvent) => {
     e.preventDefault();
-    if(!newClient.imageUrl) {
-        newClient.imageUrl = `https://picsum.photos/100/100?random=${Date.now()}`;
+    let clientToAdd = { ...newClient };
+    if(!clientToAdd.imageUrl) {
+        clientToAdd.imageUrl = `https://picsum.photos/100/100?random=${Date.now()}`;
     }
-    db.addClient(newClient);
+    db.addClient(clientToAdd);
     setNewClient({ name: '', description: '', designation: '', imageUrl: '' });
     refreshData();
   };
 
   const handleDeleteClient = (id: string) => {
-    if(window.confirm("Are you sure?")) {
+    if(window.confirm("Delete this client testimonial?")) {
       db.deleteClient(id);
       refreshData();
     }
@@ -66,39 +67,39 @@ const AdminPanel: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex font-sans">
       {/* Sidebar */}
-      <aside className="w-64 bg-brand-blue text-white flex-shrink-0 hidden md:block">
-        <div className="p-6 flex items-center gap-2 border-b border-blue-800">
-           <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center font-bold">P</div>
-           <span className="text-xl font-bold">PixelAdmin</span>
+      <aside className="w-64 bg-brand-blue text-white flex-shrink-0 hidden md:flex flex-col">
+        <div className="p-6 flex items-center gap-2 border-b border-gray-800">
+           <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center font-bold text-white">Z</div>
+           <span className="text-xl font-bold">ZenithAdmin</span>
         </div>
-        <nav className="mt-6 px-4 space-y-2">
+        <nav className="mt-6 px-4 space-y-2 flex-1">
           <button 
             onClick={() => setActiveTab(TabView.PROJECTS)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.PROJECTS ? 'bg-blue-800 text-white' : 'text-blue-200 hover:bg-blue-900'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.PROJECTS ? 'bg-gray-800 text-brand-orange font-medium' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
           >
             <LayoutDashboard size={20} /> Projects
           </button>
           <button 
             onClick={() => setActiveTab(TabView.CLIENTS)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.CLIENTS ? 'bg-blue-800 text-white' : 'text-blue-200 hover:bg-blue-900'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.CLIENTS ? 'bg-gray-800 text-brand-orange font-medium' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
           >
             <Users size={20} /> Clients
           </button>
           <button 
             onClick={() => setActiveTab(TabView.CONTACTS)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.CONTACTS ? 'bg-blue-800 text-white' : 'text-blue-200 hover:bg-blue-900'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.CONTACTS ? 'bg-gray-800 text-brand-orange font-medium' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
           >
             <MessageSquare size={20} /> Inquiries
           </button>
           <button 
             onClick={() => setActiveTab(TabView.SUBSCRIBERS)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.SUBSCRIBERS ? 'bg-blue-800 text-white' : 'text-blue-200 hover:bg-blue-900'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === TabView.SUBSCRIBERS ? 'bg-gray-800 text-brand-orange font-medium' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}
           >
             <Mail size={20} /> Newsletter
           </button>
         </nav>
-        <div className="absolute bottom-0 w-64 p-4 border-t border-blue-800">
-            <Link to="/" className="flex items-center gap-2 text-blue-300 hover:text-white transition">
+        <div className="p-4 border-t border-gray-800">
+            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition">
                 <ArrowLeft size={16} /> Back to Website
             </Link>
         </div>
@@ -108,17 +109,24 @@ const AdminPanel: React.FC = () => {
       <main className="flex-1 overflow-y-auto">
         {/* Mobile Header */}
         <div className="md:hidden bg-brand-blue text-white p-4 flex justify-between items-center sticky top-0 z-20">
-            <h1 className="font-bold">PixelAdmin</h1>
-            <div className="flex gap-4 text-sm">
-                <button onClick={() => setActiveTab(TabView.PROJECTS)} className={activeTab === TabView.PROJECTS ? 'text-brand-orange' : ''}>Projects</button>
-                <button onClick={() => setActiveTab(TabView.CONTACTS)} className={activeTab === TabView.CONTACTS ? 'text-brand-orange' : ''}>Inquiries</button>
+            <h1 className="font-bold flex items-center gap-2">
+                <span className="text-brand-orange">Z</span> ZenithAdmin
+            </h1>
+            <div className="flex gap-4 text-sm overflow-x-auto">
+                <button onClick={() => setActiveTab(TabView.PROJECTS)} className={activeTab === TabView.PROJECTS ? 'text-brand-orange underline' : ''}>Projects</button>
+                <button onClick={() => setActiveTab(TabView.CONTACTS)} className={activeTab === TabView.CONTACTS ? 'text-brand-orange underline' : ''}>Inquiries</button>
             </div>
         </div>
 
-        <div className="p-8">
-          <header className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 capitalize">{activeTab.toLowerCase().replace('_', ' ')} Management</h2>
-            <p className="text-gray-500">Manage your website content and view user interactions.</p>
+        <div className="p-8 max-w-7xl mx-auto">
+          <header className="mb-8 flex justify-between items-end">
+            <div>
+                <h2 className="text-3xl font-bold text-gray-800 capitalize">{activeTab.toLowerCase().replace('_', ' ')} Management</h2>
+                <p className="text-gray-500 mt-1">Manage your website content and view user interactions.</p>
+            </div>
+            <div className="text-sm text-gray-400 hidden md:block">
+                DB Mode: <span className="text-brand-orange font-mono">Local/Simulated</span>
+            </div>
           </header>
 
           {/* PROJECT TAB */}
@@ -132,22 +140,22 @@ const AdminPanel: React.FC = () => {
                 <form onSubmit={handleAddProject} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-1">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
-                        <input required type="text" className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none" 
+                        <input required type="text" className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none transition" 
                             value={newProject.name} onChange={e => setNewProject({...newProject, name: e.target.value})} />
                     </div>
                     <div className="md:col-span-1">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-                        <input type="text" placeholder="https://..." className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none" 
+                        <input type="text" placeholder="https://..." className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none transition" 
                             value={newProject.imageUrl} onChange={e => setNewProject({...newProject, imageUrl: e.target.value})} />
                         <p className="text-xs text-gray-400 mt-1">Leave empty for random placeholder</p>
                     </div>
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea required className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none" rows={3}
+                        <textarea required className="w-full border rounded-md p-2 focus:ring-2 focus:ring-brand-blue focus:outline-none transition" rows={3}
                             value={newProject.description} onChange={e => setNewProject({...newProject, description: e.target.value})} />
                     </div>
                     <div className="md:col-span-2">
-                        <button type="submit" className="bg-brand-orange text-white px-6 py-2 rounded font-bold hover:bg-orange-600 transition">
+                        <button type="submit" className="bg-brand-blue text-white px-6 py-2 rounded font-bold hover:bg-gray-800 transition">
                             Add Project
                         </button>
                     </div>
@@ -157,15 +165,17 @@ const AdminPanel: React.FC = () => {
               {/* Projects List */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map(p => (
-                    <div key={p.id} className="bg-white rounded-lg shadow overflow-hidden border border-gray-100 flex flex-col">
-                        <div className="h-40 overflow-hidden relative">
+                    <div key={p.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 flex flex-col hover:shadow-lg transition">
+                        <div className="h-48 overflow-hidden relative group">
                              <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
-                             <button onClick={() => handleDeleteProject(p.id)} className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded hover:bg-red-700">
-                                <Trash2 size={16} />
-                             </button>
+                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                 <button onClick={() => handleDeleteProject(p.id)} className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 flex items-center gap-1">
+                                    <Trash2 size={16} /> Delete
+                                 </button>
+                             </div>
                         </div>
                         <div className="p-4 flex-1">
-                            <h4 className="font-bold text-gray-800">{p.name}</h4>
+                            <h4 className="font-bold text-gray-800 text-lg">{p.name}</h4>
                             <p className="text-sm text-gray-500 mt-2">{p.description}</p>
                         </div>
                     </div>
@@ -204,7 +214,7 @@ const AdminPanel: React.FC = () => {
                             value={newClient.description} onChange={e => setNewClient({...newClient, description: e.target.value})} />
                     </div>
                     <div className="md:col-span-2">
-                        <button type="submit" className="bg-brand-orange text-white px-6 py-2 rounded font-bold hover:bg-orange-600 transition">
+                        <button type="submit" className="bg-brand-blue text-white px-6 py-2 rounded font-bold hover:bg-gray-800 transition">
                             Add Client
                         </button>
                     </div>
@@ -236,10 +246,10 @@ const AdminPanel: React.FC = () => {
                                        </div>
                                    </td>
                                    <td className="px-6 py-4">
-                                       <div className="text-sm text-gray-500 max-w-md truncate">{client.description}</div>
+                                       <div className="text-sm text-gray-500 max-w-md truncate">"{client.description}"</div>
                                    </td>
                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                       <button onClick={() => handleDeleteClient(client.id)} className="text-red-600 hover:text-red-900">Delete</button>
+                                       <button onClick={() => handleDeleteClient(client.id)} className="text-red-600 hover:text-red-900 font-bold">Delete</button>
                                    </td>
                                </tr>
                            ))}

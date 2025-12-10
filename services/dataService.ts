@@ -1,69 +1,73 @@
 import { Project, Client, ContactSubmission, Subscriber } from '../types';
 
 /**
- * NOTE: In a real production environment with the provided MongoDB URI,
- * this file would be replaced by API calls (axios/fetch) to your Node.js/Express backend.
+ * PRODUCTION CONFIGURATION NOTE:
  * 
- * Since this is a frontend-only environment, we are using LocalStorage to simulate
- * the MongoDB Atlas behavior so you can test the "Admin" -> "Landing Page" data flow instantly.
+ * To connect to your MongoDB Atlas instance:
+ * MONGO_URI=mongodb+srv://vedantjain:Vedant474@cluster0.pbitmrx.mongodb.net/
+ * 
+ * In a real-world deployment (Node.js/Express + React):
+ * 1. You would create a backend API server.
+ * 2. Use Mongoose to connect to the above MONGO_URI.
+ * 3. Replace the localStorage logic below with `await fetch('/api/projects')`, etc.
  */
 
 const STORAGE_KEYS = {
-  PROJECTS: 'pixel_projects',
-  CLIENTS: 'pixel_clients',
-  CONTACTS: 'pixel_contacts',
-  SUBS: 'pixel_subs'
+  PROJECTS: 'zenith_projects',
+  CLIENTS: 'zenith_clients',
+  CONTACTS: 'zenith_contacts',
+  SUBS: 'zenith_subs'
 };
 
-// Initial Seed Data (Simulating existing DB data)
+// Initial Seed Data
 const INITIAL_PROJECTS: Project[] = [
   {
     id: '1',
-    name: 'Consultation',
-    description: 'Expert real estate consultation for modern homes.',
-    imageUrl: 'https://picsum.photos/400/300?random=1'
+    name: 'Skyline Heights',
+    description: 'Luxury apartments with panoramic city views.',
+    imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: '2',
-    name: 'Modern Design',
-    description: 'Architecture planning and interior design services.',
-    imageUrl: 'https://picsum.photos/400/300?random=2'
+    name: 'Eco Villa Series',
+    description: 'Sustainable living with modern architectural design.',
+    imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: '3',
-    name: 'Marketing & Sales',
-    description: 'Strategic marketing to sell your property faster.',
-    imageUrl: 'https://picsum.photos/400/300?random=3'
+    name: 'Urban Lofts',
+    description: 'Industrial style lofts in the heart of the creative district.',
+    imageUrl: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: '4',
-    name: 'Estate Planning',
-    description: 'Comprehensive estate planning and management.',
-    imageUrl: 'https://picsum.photos/400/300?random=4'
+    name: 'Seaside Retreat',
+    description: 'Exclusive beachfront properties for the ultimate getaway.',
+    imageUrl: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   }
 ];
 
 const INITIAL_CLIENTS: Client[] = [
   {
     id: '1',
-    name: 'Rowhan Smith',
-    designation: 'CEO, Foreclosure',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-    imageUrl: 'https://picsum.photos/100/100?random=10'
+    name: 'Sarah Jenkins',
+    designation: 'Tech Entrepreneur',
+    description: 'ZenithHomes found me the perfect penthouse workspace. The process was seamless and professional.',
+    imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
   },
   {
     id: '2',
-    name: 'Shipra Kayak',
-    designation: 'Brand Designer',
-    description: 'Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-    imageUrl: 'https://picsum.photos/100/100?random=11'
+    name: 'Marcus Chen',
+    designation: 'Architect',
+    description: 'As an architect, I appreciate their eye for detail. They truly understand quality construction.',
+    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
   },
   {
     id: '3',
-    name: 'John Lepore',
-    designation: 'CEO, Foreclosure',
-    description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    imageUrl: 'https://picsum.photos/100/100?random=12'
+    name: 'Elena Rodriguez',
+    designation: 'Investor',
+    description: 'The ROI on the properties ZenithHomes suggested has been outstanding. Highly recommended.',
+    imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
   }
 ];
 
