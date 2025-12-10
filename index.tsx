@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MainApp from './MainApp';
-import './index.css'; // Ensure you have your tailwind directives here if using a local css file, otherwise this line is optional.
+
+// Tailwind is loaded via CDN in index.html. 
+// We removed import './index.css' because the file does not exist, causing the build to fail.
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
